@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
     flex: 1,
     borderBottomWidth: 1,
     borderColor: '#D3D3D3',
-    //borderRadius: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
