@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
-    paddingVertical:15
+    paddingVertical:15,
   },
   icon: {fontSize: 30, color: '#1E90FF', position: 'absolute', left: 10},
   text1: {
