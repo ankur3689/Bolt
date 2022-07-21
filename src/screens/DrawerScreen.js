@@ -1,11 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeStack from './HomeScreen';
 import ProfileScreen from './ProfileScreen';
 import DrawerHeader from '../components/DrawerHeader';
 import {getHeaderTitle} from '@react-navigation/elements';
 import DrawerContent from '../components/DrawerContent';
+import MyOrders from './MyOrders';
 
 const Drawer = createDrawerNavigator();
 
@@ -27,7 +28,13 @@ function DrawerScreen({navigation}) {
         },
       }}
       drawerContent={({state, navigation, descriptors}) => {
-        return <DrawerContent state={state} navigation={navigation} descriptors={descriptors} />;
+        return (
+          <DrawerContent
+            state={state}
+            navigation={navigation}
+            descriptors={descriptors}
+          />
+        );
       }}>
       <Drawer.Screen
         name="Home"
@@ -35,12 +42,9 @@ function DrawerScreen({navigation}) {
         options={{drawerLabel: 'Home', headerShown: false}}
       />
       <Drawer.Screen name="Profile" component={ProfileScreen} />
+      <Drawer.Screen name="MyOrders" component={MyOrders} />
     </Drawer.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {flex: 1, alignItems: 'center', justifyContent: 'center'},
-});
 
 export default DrawerScreen;

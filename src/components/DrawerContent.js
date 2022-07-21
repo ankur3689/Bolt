@@ -58,7 +58,7 @@ const DrawerContent = ({state, navigation, descriptors}) => {
         />
         <DrawerItem
           label="My Orders"
-          onPress={() => navigation.navigate('Profile')}
+          onPress={() => navigation.navigate('MyOrders')}
           icon={({focused, color, size}) => {
             return (
               <Ionicons
@@ -68,7 +68,7 @@ const DrawerContent = ({state, navigation, descriptors}) => {
               />
             );
           }}
-          focused={state.index === 1}
+          focused={state.index === 2}
         />
       </View>
 
