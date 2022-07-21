@@ -25,7 +25,7 @@ const DrawerContent = ({state, navigation, descriptors}) => {
             uri: 'https://reactnative.dev/img/tiny_logo.png',
           }}
         />
-        <Text>Ankur Chandravanshi</Text>
+        <Text style={{marginVertical:15}}>Ankur Chandravanshi</Text>
       </View>
       <View style={{flex:1}}>
         <DrawerItem
@@ -72,7 +72,7 @@ const DrawerContent = ({state, navigation, descriptors}) => {
         />
       </View>
 
-      <View style={{borderTopColor:'#D3D3D3',borderTopWidth:1}}>
+      <View style={{borderTopColor:'#D3D3D3',borderTopWidth:1,paddingVertical:10}}>
         <DrawerItem
           label="Logout"
           icon={({focused, color, size}) => {
