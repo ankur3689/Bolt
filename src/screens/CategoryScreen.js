@@ -1,12 +1,18 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import {View, Text} from 'react-native';
+import React from 'react';
+import BottomTab from '../components/BottomTab';
 
-const CategoryScreen = () => {
+
+const CategoryScreen = ({navigation}) => {
   return (
-    <View>
-      <Text>CategoryScreen</Text>
-    </View>
-  )
-}
+    <View style={{flex: 1}}>
+      <View style={{flex: 1, borderColor: 'red', borderRadius: 1, borderWidth: 1}}>
+        <Text>CategoryScreen</Text>
+      </View>
 
-export default CategoryScreen
+      <BottomTab navigation={navigation} activetab="Category" />
+    </View>
+  );
+};
+
+export default CategoryScreen;

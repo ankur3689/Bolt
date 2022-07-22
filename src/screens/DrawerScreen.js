@@ -6,7 +6,7 @@ import ProfileScreen from './ProfileScreen';
 import DrawerHeader from '../components/DrawerHeader';
 import {getHeaderTitle} from '@react-navigation/elements';
 import DrawerContent from '../components/DrawerContent';
-import MyOrders from './MyOrders';
+import MyOrdersScreen from './MyOrdersScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -42,7 +42,7 @@ function DrawerScreen({navigation}) {
         options={{drawerLabel: 'Home', headerShown: false}}
       />
       <Drawer.Screen name="Profile" component={ProfileScreen} />
-      <Drawer.Screen name="MyOrders" component={MyOrders} />
+      <Drawer.Screen name="MyOrders" component={MyOrdersScreen} />
     </Drawer.Navigator>
   );
 }

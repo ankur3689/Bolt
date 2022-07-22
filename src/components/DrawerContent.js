@@ -30,7 +30,7 @@ const DrawerContent = ({state, navigation, descriptors}) => {
       <View style={{flex:1}}>
         <DrawerItem
           label="Home"
-          onPress={() => navigation.navigate('Home')}
+          onPress={() => navigation.navigate('Home',{screen:'Products'})}
           icon={({focused, color, size}) => {
             return (
               <Ionicons
@@ -46,6 +46,7 @@ const DrawerContent = ({state, navigation, descriptors}) => {
           label="Profile"
           onPress={() => navigation.navigate('Profile')}
           icon={({focused, color, size}) => {
+            //console.log(color);
             return (
               <Ionicons
                 color={color}
