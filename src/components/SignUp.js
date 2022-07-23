@@ -7,34 +7,36 @@ import {
   Pressable,
   TextInput,
 } from 'react-native';
-import useAuth from '../hooks/useAuth';
 
-const Login = ({navigation}) => {
-  const {auth, setAuth} = useAuth();
+
+const SignUp = ({navigation}) => {
+  
   const handleChange = () => {};
-  const loginUser = () => {
-    setAuth(true);
+  const handleSubmit = () => {
+     navigation.navigate('Login');
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Username:</Text>
-      <TextInput style={styles.input} placeholder="Please enter username" />
+      <Text style={styles.label}>Email:</Text>
+      <TextInput style={styles.input} placeholder="Please enter email" />
       <Text style={[styles.label, {marginTop: 20}]}>Password:</Text>
       <TextInput style={styles.input} placeholder="Please enter password" />
-      <TouchableOpacity style={styles.loginBtn} onPress={() => loginUser()}>
-        <Text style={styles.text3}>Log In</Text>
+      <Text style={[styles.label, {marginTop: 20}]}>Confirm Password:</Text>
+      <TextInput style={styles.input} placeholder="Please enter confirm password" />
+      <TouchableOpacity style={styles.loginBtn} onPress={() => handleSubmit()}>
+        <Text style={styles.text3}>Create Account</Text>
       </TouchableOpacity>
       <View style={styles.btnWrapper}>
-        <Text style={styles.txtNewUser}>New user ? </Text>
-        <Pressable onPress={() => navigation.navigate('Signup')}>
-          <Text style={styles.txtSignup}>Sign-up</Text>
+        <Text style={styles.txtNewUser}>Exiting user ? </Text>
+        <Pressable onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.txtSignup}>Login</Text>
         </Pressable>
       </View>
     </View>
   );
 };
 
-export default Login;
+export default SignUp;
 
 const styles = StyleSheet.create({
   container: {
