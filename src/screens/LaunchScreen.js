@@ -8,7 +8,7 @@ import {
   Alert,
 } from 'react-native';
 import React from 'react';
-import SafeAreaView from 'react-native-safe-area-view';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {B} from '../Utility';
 
 const LaunchScreen = ({navigation}) => {
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    fontFamily: '',
+    //fontFamily: '',
     // borderColor: 'red',
     // borderStyle: 'solid',
     // borderWidth: 2,
@@ -58,14 +58,14 @@ const styles = StyleSheet.create({
     flex: 3,
     justifyContent: 'center',
   },
-  btnContainer: {flex: 1},
+  btnContainer: {flex: 1,width:'100%',alignItems:'center'},
   loginBtn: {
     borderRadius: 5,
-    borderWidth: 2,
-    paddingHorizontal: 100,
-    paddingVertical: 5,
-    backgroundColor: 'blue',
-    borderColor: 'blue',
+    //borderWidth: 2,
+    width: '80%',
+    paddingVertical: 12,
+    backgroundColor: '#007affc7',
+    //borderColor: '#007affc7',
   },
   text3: {fontSize: 20, color: '#fff', textAlign: 'center'},
   text4: {fontSize: 20, textAlign: 'center', marginTop: 30},
