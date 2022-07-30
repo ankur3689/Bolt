@@ -22,7 +22,7 @@ const SignUp = ({navigation}) => {
       <Text style={[styles.label, {marginTop: 20}]}>Password:</Text>
       <TextInput style={styles.input} placeholder="Please enter password" />
       <Text style={[styles.label, {marginTop: 20}]}>Confirm Password:</Text>
-      <TextInput style={styles.input} placeholder="Please enter confirm password" />
+      <TextInput style={styles.input} placeholder="Please confirm password" />
       <TouchableOpacity style={styles.loginBtn} onPress={() => handleSubmit()}>
         <Text style={styles.text3}>Create Account</Text>
       </TouchableOpacity>
