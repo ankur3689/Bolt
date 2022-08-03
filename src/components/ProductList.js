@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Text,
   StyleSheet,
@@ -7,64 +7,80 @@ import {
   Image,
   ActivityIndicator,
 } from 'react-native';
-import {set} from 'react-native-reanimated';
-import useAxios from '../hooks/useAxios';
 
-const Item = ({item, onPress, backgroundColor, textColor}) => (
-  <View onPress={onPress} style={[styles.item]}>
-    <View style={{flex: 2}}>
-      <Image
-        style={{width: '100%', height: '100%'}}
-        source={{uri: item.images[0].src}}
-      />
-    </View>
-    <View style={{flex: 1}}>
-      <Text style={[styles.title, textColor]}>{item.name}</Text>
-      <Text>$50</Text>
-    </View>
-  </View>
-);
+import useAxios from '../hooks/useAxios';
 
 const ProductList = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [stopLoadMore, setStopLoadMore] = useState(false);
   const axios = useAxios();
-  const loadProducts = async () => {
+  const loadProducts = async page => {
+    console.log('GetPage', page);
     try {
-      let response = await axios.get('products');
-      setProducts(prev => {
-        return [...prev, ...response.data];
+      let response = await axios.get('products', {
+        params: {
+          page: page,
+        },
       });
+      if (response.data.length === 0) {
+        console.log('No more products.');
+        setStopLoadMore(true);
+      } else {
+        setProducts(prev => {
+          return [...prev, ...response.data];
+        });
+      }
+
       return 'success';
     } catch (error) {
-      throw new Error('Error:' + error);
+      throw new Error(error);
     }
+  };
+
+  const loadMoreProducts = () => {
+    if (loadingMore === true) {
+      return false; //already running a page load
+    }
+    if (stopLoadMore === true) {
+      console.log('StopLoadMore', stopLoadMore);
+      return false; // no more records exists
+    }
+    setLoadingMore(true);
+    console.log('SettingLoadingMore', pageNumber + 1);
+    setPageNumber(prev => prev + 1);
+    console.log('LoadingMore', pageNumber + 1);
+    loadProducts(pageNumber + 1).then(
+      res => {
+        console.log('success', res);
+        setLoadingMore(false);
+      },
+      err => {
+        console.log('Error:', err);
+        setLoadingMore(false);
+      },
+    );
   };
 
   useEffect(() => {
     setIsLoading(true);
-    loadProducts().then(
+    loadProducts(1).then(
       res => {
-        console.log('success', res);
+        //console.log('success', res);
         setIsLoading(false);
       },
       err => {
-        console.log('tt', err);
+        console.log('Error:', err);
         setIsLoading(false);
       },
     );
   }, []);
 
-  const renderItem = ({item}) => {
-    //console.log(item)
-    return (
-      <Item
-        item={item}
-        onPress={() => {
-          navigation.navigate('ProductDetail');
-        }}
-      />
-    );
+  const renderItem = ({item, index, separators}) => {
+    //console.log(index, separators);
+    return <Item item={item} index={index} />;
   };
   return (
     <View style={styles.container}>
@@ -74,6 +90,8 @@ const ProductList = ({navigation}) => {
         keyExtractor={item => item.id}
         extraData="extra_data"
         numColumns={2}
+        onEndReached={loadMoreProducts}
+        ItemSeparatorComponent={() => <ItemSeparator />}
       />
       {isLoading && (
         <View
@@ -91,6 +109,9 @@ const ProductList = ({navigation}) => {
           <ActivityIndicator size="large" color="#fff" animating={isLoading} />
         </View>
       )}
+      {loadingMore && (
+        <ActivityIndicator size="large" animating={loadingMore} />
+      )}
     </View>
   );
 };
@@ -103,17 +124,43 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   item: {
-    height: 300,
-    margin: 1,
+    height: 170,
+    //margin: 1,
     //flexDirection:'row',
     flex: 1,
     borderColor: '#D3D3D3',
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 5,
+    //borderWidth: 1,
+    //borderRadius: 5,
+    padding: 10,
   },
   title: {
-    fontSize: 16,
+    fontSize: 12,
   },
 });
+const Item = ({item, index}) => {
+  const columnSeratorStyle =
+    index % 2 === 0 ? {borderRightColor: '#D3D3D3', borderRightWidth: 0.5} : {};
+
+  return (
+    <View style={[styles.item,columnSeratorStyle]}>
+      <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
+        <Image
+          style={{width: 100, height: 100}}
+          source={{uri: item.images[0].src}}
+        />
+      </View>
+      <View style={{flex: 1, marginTop: 10}}>
+        <Text style={[styles.title]}>{item.name}</Text>
+        {item.in_stock && <Text style={[styles.title]}>${item.price}</Text>}
+        {!item.in_stock && (
+          <Text style={[styles.title, {color: 'red'}]}>Out Of Stock</Text>
+        )}
+      </View>
+    </View>
+  );
+};
+const ItemSeparator = () => {
+  return <View style={{borderColor: '#D3D3D3', borderWidth: 0.5}}></View>;
+};
+
 export default ProductList;
