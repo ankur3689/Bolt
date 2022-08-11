@@ -6,6 +6,7 @@ import {
   View,
   Image,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 
 import useAxios from '../hooks/useAxios';
@@ -79,8 +80,10 @@ const ProductList = ({navigation}) => {
   }, []);
 
   const renderItem = ({item, index, separators}) => {
-    //console.log(index, separators);
-    return <Item item={item} index={index} />;
+    const handleItemPress = item => {
+      navigation.navigate('ProductDetail', {productID: item.id});
+    };
+    return <Item item={item} index={index} handleItemPress={handleItemPress} />;
   };
   return (
     <View style={styles.container}>
@@ -94,18 +97,7 @@ const ProductList = ({navigation}) => {
         ItemSeparatorComponent={() => <ItemSeparator />}
       />
       {isLoading && (
-        <View
-          style={{
-            backgroundColor: 'rgba(52, 52, 52, 0.8)',
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            justifyContent: 'center',
-            alignItems: 'center',
-            opacity: 0.5,
-          }}>
+        <View style={styles.fullPageLoader}>
           <ActivityIndicator size="large" color="#fff" animating={isLoading} />
         </View>
       )}
@@ -114,6 +106,34 @@ const ProductList = ({navigation}) => {
       )}
     </View>
   );
+};
+
+const Item = ({item, index, handleItemPress}) => {
+  const columnSeratorStyle =
+    index % 2 === 0 ? {borderRightColor: '#D3D3D3', borderRightWidth: 0.5} : {};
+  //console.log(item.price_html);
+  return (
+    <TouchableOpacity style={{flex: 1}} onPress={() => handleItemPress(item)}>
+      <View style={[styles.item, columnSeratorStyle]}>
+        <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
+          <Image
+            style={{width: 100, height: 100}}
+            source={{uri: item.images[0].src}}
+          />
+        </View>
+        <View style={{flex: 1, marginTop: 10}}>
+          <Text style={[styles.title]}>{item.name}</Text>
+          {item.in_stock && <Text style={[styles.title]}>${item.price}</Text>}
+          {!item.in_stock && (
+            <Text style={[styles.title, {color: 'red'}]}>Out Of Stock</Text>
+          )}
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+};
+const ItemSeparator = () => {
+  return <View style={{borderColor: '#D3D3D3', borderWidth: 0.5}}></View>;
 };
 
 const styles = StyleSheet.create({
@@ -136,31 +156,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 12,
   },
+  fullPageLoader: {
+    backgroundColor: 'rgba(52, 52, 52, 0.8)',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 0.5,
+  },
 });
-const Item = ({item, index}) => {
-  const columnSeratorStyle =
-    index % 2 === 0 ? {borderRightColor: '#D3D3D3', borderRightWidth: 0.5} : {};
-
-  return (
-    <View style={[styles.item,columnSeratorStyle]}>
-      <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
-        <Image
-          style={{width: 100, height: 100}}
-          source={{uri: item.images[0].src}}
-        />
-      </View>
-      <View style={{flex: 1, marginTop: 10}}>
-        <Text style={[styles.title]}>{item.name}</Text>
-        {item.in_stock && <Text style={[styles.title]}>${item.price}</Text>}
-        {!item.in_stock && (
-          <Text style={[styles.title, {color: 'red'}]}>Out Of Stock</Text>
-        )}
-      </View>
-    </View>
-  );
-};
-const ItemSeparator = () => {
-  return <View style={{borderColor: '#D3D3D3', borderWidth: 0.5}}></View>;
-};
 
 export default ProductList;
