@@ -19,6 +19,15 @@ function useAxios() {
         password: 'cs_4252a5047577d86258300728e6935c0b11948855'
       }
   });
+  // instance.interceptors.request.use(request => {
+  //   console.log('Starting Request', JSON.stringify(request, null, 2))
+  //   return request
+  // })
+  
+  // instance.interceptors.response.use(response => {
+  //   console.log('Response:', JSON.stringify(response, null, 2))
+  //   return response
+  // })
   return instance;
 }
 
