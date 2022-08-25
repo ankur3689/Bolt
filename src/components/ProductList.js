@@ -111,7 +111,7 @@ const ProductList = ({navigation}) => {
 const Item = ({item, index, handleItemPress}) => {
   const columnSeratorStyle =
     index % 2 === 0 ? {borderRightColor: '#D3D3D3', borderRightWidth: 0.5} : {};
-  //console.log(item.price_html);
+  //console.log(item.images);
   return (
     <TouchableOpacity style={{flex: 1}} onPress={() => handleItemPress(item)}>
       <View style={[styles.item, columnSeratorStyle]}>
@@ -119,6 +119,7 @@ const Item = ({item, index, handleItemPress}) => {
           <Image
             style={{width: 100, height: 100}}
             source={{uri: item.images[0].src}}
+            defaultSource={require('../assets/no-product.png')}
           />
         </View>
         <View style={{flex: 1, marginTop: 10}}>

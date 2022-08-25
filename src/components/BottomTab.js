@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-const BottomTab = ({navigation,activetab}) => {
+const BottomTab = ({navigation, activetab}) => {
   let selectedId = '';
 
   const handlePress = id => {
@@ -19,7 +19,7 @@ const BottomTab = ({navigation,activetab}) => {
     //console.log(id);
   };
   return (
-    <SafeAreaView style={styles.safearea} edges={['left','right','bottom']}>
+    <SafeAreaView style={styles.safearea} edges={['left', 'right', 'bottom']}>
       <Pressable style={styles.iconWrapper} onPress={() => handlePress('Home')}>
         <Ionicons
           name="home-outline"
@@ -44,6 +44,7 @@ const BottomTab = ({navigation,activetab}) => {
         </Text>
       </Pressable>
       <Pressable style={styles.iconWrapper} onPress={() => handlePress('Cart')}>
+        <Text style={styles.badgeIcon}>4</Text>
         <Ionicons
           name="cart-outline"
           size={20}
@@ -68,7 +69,29 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: '#fff',
   },
-  iconWrapper: {alignItems: 'center'},
+  iconWrapper: {
+    alignItems: 'center',
+    //borderRadius: 1,
+    //borderColor: 'red',
+    //borderWidth: 1,
+    paddingHorizontal:15,
+    
+  },
+  badgeIcon: {
+    width:16,
+    height:16,
+    fontSize:10,
+    position: 'absolute',
+    textAlign:'center',
+    backgroundColor: 'red',
+    color: '#fff',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor:'red',
+    overflow:'hidden',
+    right:6,
+    zIndex:999
+  },
 });
 
 export default BottomTab;

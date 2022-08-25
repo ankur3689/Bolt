@@ -1,7 +1,8 @@
-import {View} from 'react-native';
-import React, { useEffect } from 'react';
+import {View,Text} from 'react-native';
+import React, { useEffect, useState } from 'react';
 import useAxios from '../hooks/useAxios';
 import Slider from '../components/Slider';
+import { B } from '../Utility';
 
 
 
@@ -9,11 +10,13 @@ const ProductDetailScreen = ({route, navigation}) => {
   //console.log(StyleSheet.absoluteFillObject);
   const {productID} = route.params;
   const axios = useAxios();
+  const [item,setItem] = useState({});
+
   const getProduct = async () => {
     try {
       let response = await axios.get(`products/${productID}`);
       if (response.data) {
-        //console.log(response.data);
+        setItem(response.data);
       } else {
       }
     } catch (error) {
@@ -29,11 +32,15 @@ const ProductDetailScreen = ({route, navigation}) => {
   ];
   useEffect(()=>{
     getProduct();
+
   },[])
 
   return (
     <View style={{flex:1}}>
       <Slider images={images}/>
+      <View style={{flex:1,borderColor:'red',borderRadius:1,borderWidth:1}}>
+        <Text><B>{item.name}</B></Text>
+      </View>
     </View>
   );
 };
