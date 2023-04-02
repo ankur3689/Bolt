@@ -15,8 +15,8 @@ function useAxios() {
     baseURL: 'https://del-web.hiecor.biz/wp-json/wc/v2/',
     timeout: 60000,
     auth: {
-        username: 'ck_8dd2a2f10cc7d11664c47dd2b4af2f4de97b4123',
-        password: 'cs_4252a5047577d86258300728e6935c0b11948855'
+        username: 'ck_d518b2d8ba31a0901f5425c619703bdd5985b79e',
+        password: 'cs_a7212cdf6ccfdf2a70d38aabf23fec7ec222cd1c'
       }
   });
   // instance.interceptors.request.use(request => {

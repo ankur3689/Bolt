@@ -7,6 +7,7 @@ import {
   Image,
   ActivityIndicator,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 
 import useAxios from '../hooks/useAxios';
@@ -37,7 +38,7 @@ const ProductList = ({navigation}) => {
 
       return 'success';
     } catch (error) {
-      throw new Error(error);
+      Alert.alert(error.message);
     }
   };
 
@@ -77,6 +78,10 @@ const ProductList = ({navigation}) => {
         setIsLoading(false);
       },
     );
+    return ()=>{
+      setPageNumber(1);
+      setProducts([] );
+    }
   }, []);
 
   const renderItem = ({item, index, separators}) => {
@@ -158,7 +163,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   fullPageLoader: {
-    backgroundColor: 'rgba(52, 52, 52, 0.8)',
+    backgroundColor: 'rgba(52, 52, 52, 0.7)',
     position: 'absolute',
     top: 0,
     bottom: 0,
