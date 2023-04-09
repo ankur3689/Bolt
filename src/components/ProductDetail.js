@@ -1,9 +1,15 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {decode} from 'html-entities';
 import useAxios from '../hooks/useAxios';
 import Slider from '../components/Slider';
-import {B} from '../Utility';
 
 export default function ProductDetail({route}) {
   //console.log(StyleSheet.absoluteFillObject);
@@ -15,7 +21,6 @@ export default function ProductDetail({route}) {
     try {
       let response = await axios.get(`products/${productID}`);
       if (response.data) {
-        console.log(item)
         setItem(response.data);
       } else {
       }
@@ -33,33 +38,22 @@ export default function ProductDetail({route}) {
   useEffect(() => {
     getProduct();
   }, []);
-
+  //console.log(item);
   return (
-    <SafeAreaView
-      edges={['left', 'right', 'bottom']}
-      style={{flex: 1, borderColor: 'red', borderRadius: 1, borderWidth: 1}}>
+    <SafeAreaView edges={['left', 'right', 'bottom']} style={{flex: 1}}>
       <Slider images={images} />
-      <View
-        style={{
-          flex: 1,
-          borderColor: 'pink',
-          borderRadius: 1,
-          borderWidth: 3,
-          paddingTop: 10,
-        }}>
-        <Text>
-          <B>{item.name}</B>
-        </Text>
-      </View>
-      <View
-        style={{
-          borderColor: 'blue',
-          borderRadius: 1,
-          borderWidth: 1,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-evenly',
-        }}>
+      <ScrollView style={styles.detailView}>
+        <View style={styles.titleWrapper}>
+          <Text style={styles.titleTxt}>{item.name}</Text>
+          <Text style={styles.priceTxt}>
+            {decode(item?.price_html?.replace(/(<([^>]+)>)/gi, ''))}
+          </Text>
+        </View>
+
+        <Text>{item?.description?.replace(/(<([^>]+)>)/gi, '')}</Text>
+      </ScrollView>
+
+      <View style={styles.btnContainer}>
         <TouchableOpacity
           style={styles.btn}
           onPress={() => console.log('add to cart')}>
@@ -76,14 +70,36 @@ export default function ProductDetail({route}) {
 }
 
 const styles = StyleSheet.create({
+  detailView: {
+    flex: 1,
+    //borderColor: 'pink',
+    //borderRadius: 1,
+    //borderWidth: 3,
+    padding: 10,
+  },
+  titleTxt: {
+    textAlign: 'left',
+    fontWeight: 'bold',
+    fontSize: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  priceTxt: {marginBottom:10,fontSize:15,fontWeight:'bold'},
+  titleWrapper: {
+    borderBottomColor: 'grey',
+    borderBottomWidth: 1,
+    marginBottom: 10,
+  },
+  btnContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
   btn: {
     width: '45%',
-    //marginTop: 20,
     borderRadius: 5,
-    //borderWidth: 1,
     paddingVertical: 12,
     backgroundColor: '#007affc7',
-    //borderColor: '#007affc7',
   },
   textBtn: {fontSize: 20, color: '#fff', textAlign: 'center'},
 });

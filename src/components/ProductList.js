@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import useAxios from '../hooks/useAxios';
+import { decode } from 'html-entities';
 
 const ProductList = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -56,7 +57,7 @@ const ProductList = ({navigation}) => {
     console.log('LoadingMore', pageNumber + 1);
     loadProducts(pageNumber + 1).then(
       res => {
-        console.log('success', res);
+        //console.log('success', res);
         setLoadingMore(false);
       },
       err => {
@@ -129,7 +130,7 @@ const Item = ({item, index, handleItemPress}) => {
         </View>
         <View style={{flex: 1, marginTop: 10}}>
           <Text style={[styles.title]}>{item.name}</Text>
-          {item.in_stock && <Text style={[styles.title]}>${item.price}</Text>}
+          {item.in_stock && <Text style={[styles.title]}>{decode(item?.price_html?.replace(/(<([^>]+)>)/gi, ''))}</Text>}
           {!item.in_stock && (
             <Text style={[styles.title, {color: 'red'}]}>Out Of Stock</Text>
           )}
